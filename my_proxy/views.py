@@ -33,9 +33,10 @@ def proxy_view(request, url, requests_args=None):
     response = requests.request(request.method, url, **requests_args)
     try:
         content = replace_words(response.content.decode(),
-                                settings.BASE_PROXY_URL, port,
                                 lambda word: word + '™',
-                                lambda word: len(word) == 6)
+                                lambda word: len(word) == 6,
+                                settings.BASE_PROXY_URL,
+                                port)
 
     except UnicodeDecodeError as e:
         content = response.content
